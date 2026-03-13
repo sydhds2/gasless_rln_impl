@@ -52,10 +52,17 @@ impl SequencerService {
     }
 
     fn verify_transaction( vk: &VerifyingKey<Bn254>, tx: Transaction) -> bool {
+        /*
         if let Err(e) = verify_proof(vk, &tx.rln_proof.proof, &tx.rln_proof.proof_values) {
             false
         } else {
             true
+        }
+        */
+
+        match verify_proof(vk, &tx.rln_proof.proof, &tx.rln_proof.proof_values) {
+            Ok(r) => r,
+            Err(_) => false,
         }
     }
 
