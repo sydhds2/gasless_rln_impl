@@ -1,0 +1,22 @@
+[package]
+name = "simulation"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+rln_proof = { path = "../rln_proof" }
+rln.workspace = true
+zerokit_utils.workspace = true
+ark-bn254.workspace = true
+ark-serialize.workspace = true
+ark-ff.workspace = true
+ark-relations.workspace = true
+ark-groth16.workspace = true
+tokio.workspace = true
+clap.workspace = true
+tracing.workspace = true
+tracing-subscriber.workspace = true
+async-channel = "2.5.0"
+anyhow.workspace = true
+parking_lot = "0.12.5"
+thiserror = "2.0.18"

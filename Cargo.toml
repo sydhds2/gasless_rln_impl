@@ -1,0 +1,26 @@
+[workspace]
+members = [
+    "rln_proof",
+    "simulation",
+    # "simulation_cli",
+]
+resolver = "3"
+
+[workspace.dependencies]
+rln = { version = "0.9.0", default-features = false, features = ["optimalmerkletree"] }
+zerokit_utils = { version = "0.7.0", default-features = false, features = ["pmtree-ft"] }
+# rln = { git = "https://github.com/vacp2p/zerokit/", default-features = false, features = ["pmtree-ft"] }
+# zerokit_utils = { git = "https://github.com/vacp2p/zerokit/", default-features = false, features = ["pmtree-ft"] }
+
+ark-bn254 = { version = "0.5.0", default-features = false, features = ["std"] }
+ark-relations = { version = "0.5.1", default-features = false, features = ["std"] }
+ark-ff = { version = "0.5.0", default-features = false, features = ["asm"] }
+ark-groth16 = { version = "0.5.0", default-features = false, features = [] }
+ark-serialize = { version = "0.5.0", default-features = false, features = [] }
+# ark-serialize = { git = "https://github.com/arkworks-rs/algebra", features = ["std", "serde", "serde_with"] }
+tokio = { version = "1.49.0", features = ["full"] }
+clap = { version = "4.5.60", features = ["derive", "wrap_help"] }
+serde = { version = "1.0.228", features = ["derive"] }
+tracing-subscriber = { version = "0.3.22", features = ["env-filter"] }
+tracing = "0.1.44"
+anyhow = "1.0.102"
