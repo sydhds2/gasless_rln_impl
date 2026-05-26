@@ -18,3 +18,4 @@ criterion.workspace = true
 [[bench]]
 name = "generate_proof"
 harness = false
+

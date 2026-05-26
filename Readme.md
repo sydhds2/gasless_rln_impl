@@ -15,5 +15,5 @@ Warning!: This code is a research prototype. Do not use it in production.
 
 ## Run the benchmark
 
-* Benchmark proof generation time + serialization time
+* Benchmark proof generation time, proof verification time & serialization time
   * `cargo bench -p rln_proof`

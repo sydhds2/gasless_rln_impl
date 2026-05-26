@@ -8,7 +8,7 @@ use ark_bn254::Fr;
 use ark_serialize::CanonicalSerialize;
 use rln::hashers::{hash_to_field_le, poseidon_hash};
 use rln::poseidon_tree::PoseidonTree;
-use rln::protocol::{keygen, serialize_proof_values};
+use rln::protocol::{keygen, serialize_proof_values, verify_proof};
 use zerokit_utils::ZerokitMerkleProof;
 // internal
 use rln_proof::{
@@ -24,6 +24,7 @@ pub fn criterion_benchmark(c: &mut Criterion) {
         user_limit: Fr::from(user_limit),
     };
     let rln_identifier = RlnIdentifier::new(b"test-test");
+    let verifying_key = rln_identifier.pkey_and_constraints.0.vk.clone();
     let rln_data = RlnData {
         message_id: Fr::from(user_limit - 2),
         data: hash_to_field_le(b"data-from-message"),
@@ -83,6 +84,29 @@ pub fn criterion_benchmark(c: &mut Criterion) {
                     black_box(path_elem),
                     black_box(path_idx),
                 )
+            },
+            criterion::BatchSize::SmallInput,
+        );
+    });
+
+    c.bench_function("proof verification", |b| {
+        b.iter_batched(
+            || {
+                // generate setup data
+                let path_elem = merkle_proof.get_path_elements();
+                let path_idx = merkle_proof.get_path_index();
+                compute_rln_proof_and_values(
+                    black_box(&rln_identity),
+                    black_box(&rln_identifier),
+                    black_box(rln_data.clone()),
+                    black_box(epoch),
+                    black_box(path_elem),
+                    black_box(path_idx),
+                )
+                    .unwrap()
+            },
+            |(rln_proof)| {
+                assert!(verify_proof(&verifying_key, &rln_proof.proof, &rln_proof.proof_values).is_ok());
             },
             criterion::BatchSize::SmallInput,
         );
